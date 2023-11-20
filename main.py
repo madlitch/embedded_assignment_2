@@ -30,6 +30,8 @@ color_index = {'bus': 'red', 'handbag': 'steelblue', 'giraffe': 'orange', 'spoon
 
 resized = False
 
+start = time.time()
+
 
 def for_frame(frame_number, output_array, output_count, returned_frame):
     plt.clf()
@@ -60,6 +62,8 @@ def for_frame(frame_number, output_array, output_count, returned_frame):
     plt.pie(sizes, labels=labels, colors=this_colors, shadow=True, startangle=140, autopct="%1.1f%%")
 
     plt.pause(0.01)
+    now = time.time()
+    print("processed frame {frame} : time elapsed {time:.2f}s".format(frame=frame_number, time=(now - start)))
 
 
 video_detector = VideoObjectDetection()
@@ -67,15 +71,14 @@ video_detector.setModelTypeAsRetinaNet()
 video_detector.setModelPath(os.path.join(execution_path, "retinanet.pth"))
 video_detector.loadModel()
 
-plt.show()
 print("Starting Analysis")
-start = time.time()
 
-
-video_detector.detectObjectsFromVideo(input_file_path=os.path.join(execution_path, input_file_name),
-                                      output_file_path=os.path.join(execution_path, output_file_name),
-                                      frames_per_second=20, per_frame_function=for_frame,
-                                      minimum_percentage_probability=30, return_detected_frame=True)
+video_detector.detectObjectsFromVideo(input_file_path=os.path.join(execution_path, "traffic.mp4"),
+                                      output_file_path=os.path.join(execution_path, "video_frame_analysis"),
+                                      frames_per_second=20,
+                                      per_frame_function=for_frame,
+                                      minimum_percentage_probability=30,
+                                      return_detected_frame=True)
 
 end = time.time()
 print("Finished Analysis in {time:.2f} seconds".format(time=(end - start)))
