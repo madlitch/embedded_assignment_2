@@ -1,0 +1,11 @@
+cython
+pillow
+numpy
+opencv-python
+torch
+torchvision
+tqdm
+scipy
+matplotlib~=3.8.2
+mock
+imageai~=3.0.3
